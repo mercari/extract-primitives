@@ -1,4 +1,5 @@
 # extract-primitives
+[![npm version](https://badge.fury.io/js/%40mercari%2Fextract-primitives.svg)](https://badge.fury.io/js/%40mercari%2Fextract-primitives)
 
 `extract-primitives` extracts primitive values from TypeScript's declaration file(`.d.ts`).
 
