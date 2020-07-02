@@ -1,7 +1,7 @@
 {
   "name": "@mercari/extract-primitives",
   "version": "1.0.0",
-  "description": "Project description.",
+  "description": "extract-primitives extracts primitive values from TypeScript's declaration file(.d.ts).",
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./lib && tsc -p tsconfig.lib.json && cp package.json LICENSE README.md lib",
