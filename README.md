@@ -128,6 +128,16 @@ module.exports = {
 };
 ```
 
+## Package Release Flow
+
+We use [semantic-release](https://github.com/semantic-release/semantic-release) to automate package release workflow.
+
+- Note that new version will be published every time when anything is merged into master.
+- Merge to `next` branch first if you don't want to set the version as default. Users can install the version by `npm i @mercari/extract-primitives@next`.
+- Create branches such as `1.x.x` or `1.1.x` if you want to maintain old major releases.
+
+Take a look [this doc](https://github.com/semantic-release/semantic-release/blob/master/docs/usage/workflow-configuration.md#branch-types) about more detail.
+
 ## Committers
 
  * Shota Hatada ([@whatasoda](https://github.com/whatasoda))
