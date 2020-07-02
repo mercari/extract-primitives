@@ -1,5 +1,5 @@
 {
-  "name": "extract-primitives",
+  "name": "@mercari/extract-primitives",
   "version": "1.0.0",
   "description": "Project description.",
   "main": "index.js",
