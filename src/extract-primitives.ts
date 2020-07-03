@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import fs from 'fs';
 
 type Nest = Record<string, any>;
 const nest = (): Nest => Object.create(null);
@@ -9,11 +10,14 @@ interface Options {
 
 // a function which extract values to be replaced with DefinePlugin from `.d.ts` files
 export const extractPrimitives = (files: string[], options: Options = {}): Nest => {
-  const program = ts.createProgram({ rootNames: files, options: {} });
-  program.getTypeChecker(); // init type checker
-
   const result = files.reduce<Nest>((acc, file) => {
-    const source = program.getSourceFile(file);
+    const source = ts.createSourceFile(
+      file,
+      fs.readFileSync(file, { encoding: 'utf-8' }),
+      ts.ScriptTarget.Latest,
+      true,
+      ts.ScriptKind.TS,
+    );
     return source ? extractFromSingleSource(acc, source, options) : acc;
   }, nest());
 
