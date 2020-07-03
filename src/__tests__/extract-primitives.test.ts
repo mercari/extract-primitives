@@ -9,14 +9,14 @@ const Minato = {
   isInOsaka: false,
   area: 20.37,
   Roppongi: {
-    Station: 'H04',
+    Station: "'H04'",
   },
 };
 const Chiyoda = {
   isInOsaka: false,
   area: 11.66,
   Ochanomizu: {
-    Station: 'C12',
+    Station: "'C12'",
   },
 };
 
@@ -29,11 +29,22 @@ describe('trimQuotes', () => {
 });
 
 describe('extractPrimitives', () => {
-  it('works correctly', () => {
+  it('works correctly without options', () => {
     const result = extractPrimitives([sample]);
     const expected = {
       Japan: {
         Tokyo: { Minato },
+      },
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it('works correctly if trimQuates = true', () => {
+    const result = extractPrimitives([sample], { trimQuates: true });
+    const expected = {
+      Japan: {
+        Tokyo: { Minato: { ...Minato, Roppongi: { Station: 'H04' } } },
       },
     };
 

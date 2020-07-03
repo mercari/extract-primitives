@@ -3,21 +3,25 @@ import ts from 'typescript';
 type Nest = Record<string, any>;
 const nest = (): Nest => Object.create(null);
 
+interface Options {
+  trimQuates?: boolean;
+}
+
 // a function which extract values to be replaced with DefinePlugin from `.d.ts` files
-export const extractPrimitives = (files: string[]): Nest => {
+export const extractPrimitives = (files: string[], options: Options = {}): Nest => {
   const program = ts.createProgram({ rootNames: files, options: {} });
   program.getTypeChecker(); // init type checker
 
   const result = files.reduce<Nest>((acc, file) => {
     const source = program.getSourceFile(file);
-    return source ? extractFromSingleSource(acc, source) : acc;
+    return source ? extractFromSingleSource(acc, source, options) : acc;
   }, nest());
 
   removeEmptyNests(result);
   return result;
 };
 
-export const extractFromSingleSource = (acc: Nest, source: ts.SourceFile) => {
+export const extractFromSingleSource = (acc: Nest, source: ts.SourceFile, options: Options) => {
   const queue: ts.Node[] = [...source.statements];
   const enumBodies: ts.ModuleBlock[] = [];
 
@@ -50,7 +54,8 @@ export const extractFromSingleSource = (acc: Nest, source: ts.SourceFile) => {
             const { literal } = type;
             const key = name.getText();
             if (ts.isStringLiteral(literal)) {
-              container[key] = trimQuotes(literal.getText());
+              const raw = literal.getText();
+              container[key] = options.trimQuates ? trimQuotes(raw) : raw;
             } else if (ts.isNumericLiteral(literal)) {
               container[key] = Number(literal.getText());
             } else if (literal.kind === ts.SyntaxKind.TrueKeyword) {
